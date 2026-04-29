@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservas")
@@ -106,7 +107,28 @@ public class ReservaController {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse(false, "Origen y destino no pueden ser iguales", null));
         }
+        Reserva reservaExistente = reservaService.obtenerPorId(id).orElse(null);
         
+        Pasajero pasajero = new Pasajero();
+        pasajero.setDniPasajero(request.getDniPasajero());
+        pasajero.setNombrePasajero(request.getNombrePasajero());
+        pasajero.setApellidosPasajero(request.getApellidosPasajero());
+        pasajero.setDireccionPasajero(request.getDireccionPasajero());
+        pasajero.setTelefonoPasajero(request.getTelefonoPasajero());
+        
+        if (reservaExistente != null) {
+        	reservaExistente.setPasajero(pasajero);
+        	reservaExistente.setCiudadOrigen(new Ciudad());
+        	reservaExistente.getCiudadOrigen().setIdCiudad(request.getIdCiudadOrigen());
+        	reservaExistente.setCiudadDestino(new Ciudad());
+        	reservaExistente.getCiudadDestino().setIdCiudad(request.getIdCiudadDestino());
+        	reservaExistente.setClase(new Clase());
+        	reservaExistente.getClase().setCodClase(request.getCodClase());
+        	reservaExistente.setFechaViaje(request.getFechaViaje());
+        	reservaExistente.setHoraViaje(request.getHoraViaje());
+        	reservaExistente.setNroAsiento(request.getNroAsiento());
+        }
+        /*
         Reserva reserva = new Reserva();
         reserva.setIdReserva(id);
         reserva.setCiudadOrigen(new Ciudad());
@@ -118,20 +140,13 @@ public class ReservaController {
         reserva.setFechaViaje(request.getFechaViaje());
         reserva.setHoraViaje(request.getHoraViaje());
         reserva.setNroAsiento(request.getNroAsiento());
-        
-        if (!reservaService.verificarAsientoDisponible(reserva)) {
+        */
+        if (!reservaService.verificarAsientoDisponible(reservaExistente)) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse(false, "El asiento ya está reservado", null));
         }
         
-        Pasajero pasajero = new Pasajero();
-        pasajero.setDniPasajero(request.getDniPasajero());
-        pasajero.setNombrePasajero(request.getNombrePasajero());
-        pasajero.setApellidosPasajero(request.getApellidosPasajero());
-        pasajero.setDireccionPasajero(request.getDireccionPasajero());
-        pasajero.setTelefonoPasajero(request.getTelefonoPasajero());
-        
-        Reserva actualizada = reservaService.actualizarReserva(reserva, pasajero);
+        Reserva actualizada = reservaService.actualizarReserva(reservaExistente, pasajero);
         return ResponseEntity.ok(new ApiResponse(true, "Reserva actualizada", actualizada));
     }
     

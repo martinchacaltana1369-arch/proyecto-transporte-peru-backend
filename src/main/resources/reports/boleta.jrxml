@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="BoletaElectronica" pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="b7e5d6a8-4d7d-4c68-a56c-7fd2eabc1f22">
+
+    <!-- Definición de campos-->
+    <field name="idReserva" class="java.lang.Integer"/>
+    <field name="nroBoleta" class="java.lang.Integer"/>
+    <field name="codServicioBoleta" class="java.lang.Integer"/>
+    <field name="cantidad" class="java.lang.Integer"/>
+    <field name="dniPasajero" class="java.lang.String"/>
+    <field name="nombresApellidosPasajero" class="java.lang.String"/>
+    <field name="fechEmisionBoleta" class="java.time.LocalDate"/>
+    <field name="horaEmisionBoleta" class="java.time.LocalTime"/>
+    <field name="nroAsiento" class="java.lang.String"/>
+    <field name="fechViaje" class="java.time.LocalDate"/>
+    <field name="horaViaje" class="java.time.LocalTime"/>
+    <field name="nombreTipoVendedor" class="java.lang.String"/>
+    <field name="nombreCondicion" class="java.lang.String"/>
+    <field name="detalleServicio" class="java.lang.String"/>
+    <field name="precioUnitarioServicio" class="java.lang.Double"/>
+    <field name="valorDeclaradoBoleta" class="java.lang.Double"/>
+
+    <!-- Parámetro opcional -->
+    <parameter name="NRO_BOLETA" class="java.lang.Integer"/>
+
+    <!-- Encabezado -->
+    <title>
+        <band height="80">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30" uuid="e0a63c19-8f44-474d-bf5c-3b365f85eac8"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[BOLETA ELECTRÓNICA]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="400" y="50" width="150" height="20" uuid="184ed77a-3bfb-47ec-9d50-d034fcbcf2ff"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["N° Boleta: " + $F{nroBoleta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <!-- Información del pasajero -->
+    <pageHeader>
+        <band height="80">
+            <textField>
+                <reportElement x="0" y="0" width="300" height="20" uuid="b8e70c1d-5c9f-4a3a-b0c4-70879b2a57e7"/>
+                <textFieldExpression><![CDATA["Señor(es): " + $F{nombresApellidosPasajero}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="20" width="300" height="20" uuid="2f345c35-8202-4c02-85d4-16f84bfcf210"/>
+                <textFieldExpression><![CDATA["DNI: " + $F{dniPasajero}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="40" width="300" height="20" uuid="e67f86e2-b54b-44f6-8084-2b26279d0c0d"/>
+                <textFieldExpression><![CDATA["Fecha Emisión: " + $F{fechEmisionBoleta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="60" width="300" height="20" uuid="f6ab5c2a-5133-45aa-9a4e-1c4f8a0f5efc"/>
+                <textFieldExpression><![CDATA["Hora Emisión: " + $F{horaEmisionBoleta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <!-- Detalles de servicios -->
+    <columnHeader>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="80" height="20" uuid="88f86d46-ec70-4d1f-9d42-7fa0c8f0cc6c"/>
+                <text><![CDATA[Código]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="80" y="0" width="60" height="20" uuid="9a9e28d0-8248-4b79-9f71-33a93c14317d"/>
+                <text><![CDATA[Cant.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="140" y="0" width="200" height="20" uuid="ff8a7c14-64fb-4bb3-90f0-32892835cbe8"/>
+                <text><![CDATA[Descripción]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="340" y="0" width="100" height="20" uuid="d7b1e49e-9cdb-4f86-9c73-41c70efce223"/>
+                <text><![CDATA[PV Unit]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="440" y="0" width="115" height="20" uuid="c621c60b-5f85-4ed0-81f8-c7e4f32c7a09"/>
+                <text><![CDATA[Importe]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="80" height="20" uuid="3a0de870-5a62-41d3-810b-6bb1d3e8617a"/>
+                <textFieldExpression><![CDATA[$F{codServicioBoleta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="80" y="0" width="60" height="20" uuid="f8ef1e6e-5dcf-44f3-995c-617b78157b2f"/>
+                <textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="140" y="0" width="200" height="20" uuid="a2d7d3e2-2ac1-4703-8b47-ffb0e25ed0ac"/>
+                <textFieldExpression><![CDATA[$F{detalleServicio}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###,##0.00">
+                <reportElement x="340" y="0" width="100" height="20" uuid="84a9409a-3210-4e1d-a1d9-b6ef11cf7e59"/>
+                <textFieldExpression><![CDATA[$F{precioUnitarioServicio}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###,##0.00">
+                <reportElement x="440" y="0" width="115" height="20" uuid="e6c9b39d-b1a1-40d2-a1a4-92e73a0b6f91"/>
+                <textFieldExpression><![CDATA[$F{precioUnitarioServicio} * $F{cantidad}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <!-- Total -->
+    <columnFooter>
+        <band height="30">
+            <staticText>
+                <reportElement x="340" y="5" width="100" height="20" uuid="fcf51c8e-3ec5-40c4-9f59-d3cb8c1b28e4"/>
+                <text><![CDATA[TOTAL:]]></text>
+            </staticText>
+            <textField pattern="###,##0.00">
+                <reportElement x="440" y="5" width="115" height="20" uuid="0ffda5dd-b9a6-41b4-ae54-3fbd43e02731"/>
+                <textFieldExpression><![CDATA[$F{valorDeclaradoBoleta}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnFooter>
+</jasperReport>
